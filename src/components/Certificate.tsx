@@ -112,7 +112,7 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
           
           {/* Right side - Signature */}
           <div className="text-right min-w-[200px]">
-            <div className="h-10 flex items-end justify-end mb-1">
+            <div className="h-20 flex items-end justify-end mb-1">
               <img 
                 src={signature} 
                 alt="Signature" 
