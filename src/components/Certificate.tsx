@@ -21,7 +21,10 @@ interface CertificateProps {
 
 const Certificate: FC<CertificateProps> = ({ data }) => {
   return (
-    <div className="certificate-container relative w-full max-w-[1100px] aspect-[11/8.5] bg-certificate-paper shadow-certificate overflow-hidden">
+    <div 
+      className="certificate-container relative w-full max-w-[1122px] bg-certificate-paper shadow-certificate overflow-hidden"
+      style={{ aspectRatio: '297 / 210' }} // A4 landscape
+    >
       {/* Paper texture overlay */}
       <div className="absolute inset-0 paper-texture pointer-events-none" />
       
@@ -29,27 +32,27 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
       <CertificateBorder />
       
       {/* Inner content area */}
-      <div className="relative h-full p-8 md:p-12 lg:p-16 flex flex-col">
+      <div className="absolute inset-0 p-6 md:p-10 lg:p-12 flex flex-col">
         
         {/* Header */}
-        <header className="flex items-start justify-between gap-4 mb-6 md:mb-8">
-          <div className="flex items-center gap-4">
+        <header className="flex items-start justify-between gap-4 shrink-0">
+          <div className="flex items-center gap-3">
             <img 
               src={logo} 
               alt="EduMentor" 
-              className="h-12 md:h-16 lg:h-20 w-auto"
+              className="h-10 md:h-12 lg:h-14 w-auto"
             />
             <div className="flex flex-col">
-              <span className="font-display text-xs md:text-sm font-bold tracking-[0.15em] uppercase text-certificate-ink">
+              <span className="font-display text-[10px] md:text-xs font-bold tracking-[0.15em] uppercase text-certificate-ink">
                 EduMentor
               </span>
-              <span className="text-[10px] md:text-xs text-certificate-muted mt-1">
+              <span className="text-[9px] md:text-[10px] text-certificate-muted">
                 Mentorship Training Programme
               </span>
             </div>
           </div>
           
-          <div className="text-right text-[10px] md:text-xs text-certificate-muted leading-relaxed">
+          <div className="text-right text-[9px] md:text-[10px] text-certificate-muted leading-relaxed">
             <div>
               <span className="font-semibold text-certificate-ink">Certificate ID</span>: {data.certificateId}
             </div>
@@ -60,75 +63,66 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
         </header>
 
         {/* Main content */}
-        <main className="flex-1 flex flex-col items-center justify-center text-center px-4 md:px-12 lg:px-20">
+        <main className="flex-1 flex flex-col items-center justify-center text-center px-4 md:px-16 lg:px-24 min-h-0">
           
           {/* Kicker text */}
-          <p className="font-display italic text-xs md:text-sm tracking-[0.08em] text-certificate-muted mb-3 md:mb-4">
+          <p className="font-display italic text-[10px] md:text-xs tracking-[0.06em] text-certificate-muted mb-1 md:mb-2">
             In recognition of scholarly preparation and professional mentorship practice
           </p>
           
           {/* Title */}
-          <h1 className="font-display text-2xl md:text-4xl lg:text-5xl font-bold text-certificate-ink text-shadow-elegant mb-2 md:mb-4">
+          <h1 className="font-display text-xl md:text-3xl lg:text-4xl font-bold text-certificate-ink text-shadow-elegant mb-1 md:mb-2">
             Certificate of Completion
           </h1>
           
-          <CertificateFlourish className="w-32 md:w-48 mb-4 md:mb-6" />
+          <CertificateFlourish className="w-24 md:w-36 mb-2 md:mb-3" />
           
           {/* Certification text */}
-          <p className="text-[10px] md:text-xs tracking-[0.12em] uppercase text-certificate-muted mb-2 md:mb-4">
+          <p className="text-[9px] md:text-[10px] tracking-[0.12em] uppercase text-certificate-muted mb-1 md:mb-2">
             This is to certify that
           </p>
           
           {/* Candidate name */}
-          <h2 className="font-display text-2xl md:text-4xl lg:text-5xl font-bold text-certificate-ink mb-2">
+          <h2 className="font-display text-xl md:text-3xl lg:text-4xl font-bold text-certificate-ink">
             {data.candidateName}
           </h2>
           
           {/* Decorative line under name */}
-          <div className="w-48 md:w-72 lg:w-96 h-[2px] bg-gradient-to-r from-transparent via-certificate-gold to-transparent mb-4 md:mb-6" />
+          <div className="w-40 md:w-64 lg:w-80 h-[2px] bg-gradient-to-r from-transparent via-certificate-gold to-transparent my-2 md:my-3" />
           
           {/* Program description */}
-          <p className="font-body text-sm md:text-base lg:text-lg text-certificate-ink leading-relaxed mb-3 md:mb-4 max-w-2xl">
+          <p className="font-body text-xs md:text-sm text-certificate-ink leading-relaxed max-w-xl">
             has successfully completed the{' '}
             <span className="font-semibold text-certificate-border">
               {data.programName || 'EduMentor Mentorship Training Programme'}
             </span>
-            , having demonstrated the academic grounding, ethical responsibility, and practical competence expected of an EduMentor-certified mentor.
-          </p>
-          
-          {/* Citation */}
-          <p className="font-body text-xs md:text-sm text-certificate-muted leading-relaxed max-w-xl italic">
-            This certification acknowledges completion of a structured course of mentorship formation focused on evidence-informed advising, student-centred practice, and rigorous standards of integrity. The recipient has been trained to guide decision-making with{' '}
-            <span className="font-semibold text-certificate-ink not-italic">
-              discipline, empathy, and sound judgement
-            </span>
-            —consistent with EduMentor's expectations of excellence.
+            , demonstrating the academic grounding, ethical responsibility, and practical competence expected of an EduMentor-certified mentor.
           </p>
         </main>
 
         {/* Seal - positioned absolutely */}
-        <CertificateSeal className="absolute right-8 md:right-12 lg:right-20 bottom-24 md:bottom-32 lg:bottom-40" />
+        <CertificateSeal className="absolute right-10 md:right-16 lg:right-20 bottom-16 md:bottom-20" />
 
         {/* Footer */}
-        <footer className="flex items-end justify-between gap-4 mt-4 md:mt-8">
-          <div className="text-[10px] md:text-xs text-certificate-muted leading-loose">
+        <footer className="flex items-end justify-between gap-4 shrink-0">
+          <div className="text-[9px] md:text-[10px] text-certificate-muted leading-relaxed">
             <div>
-              <span className="font-semibold text-certificate-ink">Programme Duration</span>: {data.duration}
+              <span className="font-semibold text-certificate-ink">Duration</span>: {data.duration}
             </div>
             <div>
-              <span className="font-semibold text-certificate-ink">Awarded On</span>: {data.awardedDate}
+              <span className="font-semibold text-certificate-ink">Awarded</span>: {data.awardedDate}
             </div>
             <div>
               <span className="font-semibold text-certificate-ink">Issued By</span>: EduMentor
             </div>
           </div>
           
-          <div className="text-right min-w-[180px] md:min-w-[240px]">
-            <div className="w-full h-[1px] bg-certificate-ink/40 mb-2" />
-            <div className="font-display text-xs md:text-sm font-bold text-certificate-ink">
+          <div className="text-right min-w-[160px] md:min-w-[200px]">
+            <div className="w-full h-[1px] bg-certificate-ink/40 mb-1" />
+            <div className="font-display text-[10px] md:text-xs font-bold text-certificate-ink">
               {data.signatoryName}
             </div>
-            <div className="text-[10px] md:text-xs text-certificate-muted">
+            <div className="text-[9px] md:text-[10px] text-certificate-muted">
               {data.signatoryRole}
             </div>
           </div>
