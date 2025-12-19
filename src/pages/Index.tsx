@@ -8,7 +8,7 @@ const demoCertificateData: CertificateData = {
   issuedDate: "19 December 2025",
   awardedDate: "19 December 2025",
   duration: "8 Weeks",
-  signatoryName: "Dr. Ananya Rao",
+  signatoryName: "Emeritus Professor David Faulkner",
   signatoryRole: "Programme Director, EduMentor",
   programName: "EduMentor Mentorship Training Programme",
 };
