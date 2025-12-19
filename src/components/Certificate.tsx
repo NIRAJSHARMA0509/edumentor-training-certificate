@@ -1,6 +1,6 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef, useState } from 'react';
 import logo from '@/assets/edumentor-logo.png';
-import signature from '@/assets/david-signature.jpg';
+import signatureImg from '@/assets/david-signature.jpg';
 import CertificateSeal from './CertificateSeal';
 import CertificateBorder from './CertificateBorder';
 import CertificateFlourish from './CertificateFlourish';
@@ -19,14 +19,73 @@ interface CertificateProps {
   data: CertificateData;
 }
 
+// Component to render signature with transparent background
+const TransparentSignature: FC<{ src: string; className?: string }> = ({ src, className }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [processed, setProcessed] = useState(false);
+
+  useEffect(() => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      
+      canvas.width = img.width;
+      canvas.height = img.height;
+      
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      
+      ctx.drawImage(img, 0, 0);
+      
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
+      
+      // Remove white/light background - make it transparent
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+        
+        // Calculate luminance - higher = lighter
+        const luminance = (r * 0.299 + g * 0.587 + b * 0.114);
+        
+        // If pixel is light (white/near-white background), make transparent
+        if (luminance > 200) {
+          data[i + 3] = 0; // Set alpha to 0 (transparent)
+        } else if (luminance > 150) {
+          // Fade transition for mid-tones
+          data[i + 3] = Math.round((200 - luminance) * 5.1);
+        }
+      }
+      
+      ctx.putImageData(imageData, 0, 0);
+      setProcessed(true);
+    };
+    img.src = src;
+  }, [src]);
+
+  return (
+    <canvas 
+      ref={canvasRef} 
+      className={className}
+      style={{ 
+        opacity: processed ? 1 : 0,
+        transition: 'opacity 0.2s',
+      }}
+    />
+  );
+};
+
 const Certificate: FC<CertificateProps> = ({ data }) => {
   return (
     <div 
       id="certificate"
       className="certificate-container relative bg-certificate-paper shadow-certificate overflow-hidden"
       style={{ 
-        width: '842px',    // A4 landscape at 72dpi
-        height: '595px',   // A4 landscape at 72dpi
+        width: '842px',
+        height: '595px',
       }}
     >
       <div className="absolute inset-0 paper-texture pointer-events-none" />
@@ -79,7 +138,6 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
             This is to certify that
           </p>
           
-          {/* Candidate name - centered */}
           <h2 className="font-display text-3xl font-bold text-certificate-ink">
             {data.candidateName}
           </h2>
@@ -110,14 +168,12 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
             </div>
           </div>
           
-          {/* Right side - Signature */}
+          {/* Right side - Signature with transparent background */}
           <div className="text-right min-w-[200px]">
             <div className="h-20 flex items-end justify-end mb-1">
-              <img 
-                src={signature} 
-                alt="Signature" 
+              <TransparentSignature 
+                src={signatureImg} 
                 className="h-full w-auto object-contain"
-                style={{ mixBlendMode: 'multiply' }}
               />
             </div>
             <div className="w-full h-[1px] bg-certificate-ink/40 mb-1" />
