@@ -10,7 +10,6 @@ export interface CertificateData {
   certificateId: string;
   issuedDate: string;
   awardedDate: string;
-  duration: string;
   signatoryName: string;
   signatoryRole: string;
   programName?: string;
@@ -24,15 +23,11 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
   return (
     <div 
       className="certificate-container relative w-full max-w-[1122px] bg-certificate-paper shadow-certificate overflow-hidden"
-      style={{ aspectRatio: '297 / 210' }} // A4 landscape
+      style={{ aspectRatio: '297 / 210' }}
     >
-      {/* Paper texture overlay */}
       <div className="absolute inset-0 paper-texture pointer-events-none" />
-      
-      {/* Decorative border */}
       <CertificateBorder />
       
-      {/* Inner content area */}
       <div className="absolute inset-0 p-6 md:p-10 lg:p-12 flex flex-col">
         
         {/* Header */}
@@ -66,35 +61,27 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
         {/* Main content */}
         <main className="flex-1 flex flex-col items-center justify-center text-center px-4 md:px-16 lg:px-24 min-h-0">
           
-          {/* Kicker text */}
           <p className="font-display italic text-[10px] md:text-xs tracking-[0.06em] text-certificate-muted mb-1 md:mb-2">
             In recognition of scholarly preparation and professional mentorship practice
           </p>
           
-          {/* Title */}
           <h1 className="font-display text-xl md:text-3xl lg:text-4xl font-bold text-certificate-ink text-shadow-elegant mb-1 md:mb-2">
             Certificate of Completion
           </h1>
           
           <CertificateFlourish className="w-24 md:w-36 mb-2 md:mb-3" />
           
-          {/* Certification text */}
           <p className="text-[9px] md:text-[10px] tracking-[0.12em] uppercase text-certificate-muted mb-1 md:mb-2">
             This is to certify that
           </p>
           
-          {/* Candidate name with seal beside it */}
-          <div className="flex items-center justify-center gap-4 md:gap-6">
-            <h2 className="font-display text-xl md:text-3xl lg:text-4xl font-bold text-certificate-ink">
-              {data.candidateName}
-            </h2>
-            <CertificateSeal className="shrink-0" />
-          </div>
+          {/* Candidate name - centered */}
+          <h2 className="font-display text-xl md:text-3xl lg:text-4xl font-bold text-certificate-ink">
+            {data.candidateName}
+          </h2>
           
-          {/* Decorative line under name */}
           <div className="w-40 md:w-64 lg:w-80 h-[2px] bg-gradient-to-r from-transparent via-certificate-gold to-transparent my-2 md:my-3" />
           
-          {/* Program description */}
           <p className="font-body text-xs md:text-sm text-certificate-ink leading-relaxed max-w-xl">
             has successfully completed the{' '}
             <span className="font-semibold text-certificate-border">
@@ -106,20 +93,21 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
 
         {/* Footer */}
         <footer className="flex items-end justify-between gap-4 shrink-0">
-          <div className="text-[9px] md:text-[10px] text-certificate-muted leading-relaxed">
-            <div>
-              <span className="font-semibold text-certificate-ink">Duration</span>: {data.duration}
-            </div>
-            <div>
-              <span className="font-semibold text-certificate-ink">Awarded</span>: {data.awardedDate}
-            </div>
-            <div>
-              <span className="font-semibold text-certificate-ink">Issued By</span>: EduMentor
+          {/* Left side - Seal above awarded date */}
+          <div className="flex flex-col items-start">
+            <CertificateSeal className="mb-2" />
+            <div className="text-[9px] md:text-[10px] text-certificate-muted leading-relaxed">
+              <div>
+                <span className="font-semibold text-certificate-ink">Awarded</span>: {data.awardedDate}
+              </div>
+              <div>
+                <span className="font-semibold text-certificate-ink">Issued By</span>: EduMentor
+              </div>
             </div>
           </div>
           
+          {/* Right side - Signature */}
           <div className="text-right min-w-[160px] md:min-w-[220px]">
-            {/* Signature image with transparent background effect */}
             <div className="h-10 md:h-12 flex items-end justify-end mb-1">
               <img 
                 src={signature} 
