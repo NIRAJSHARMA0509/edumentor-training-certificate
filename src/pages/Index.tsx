@@ -1,6 +1,6 @@
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Download, Loader2 } from 'lucide-react';
+import { Download, Image, Loader2 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import Certificate, { CertificateData } from '@/components/Certificate';
@@ -18,26 +18,30 @@ const demoCertificateData: CertificateData = {
 };
 
 const Index = () => {
-  const [isDownloading, setIsDownloading] = useState(false);
-  const certificateRef = useRef<HTMLDivElement>(null);
+  const [isDownloadingPDF, setIsDownloadingPDF] = useState(false);
+  const [isDownloadingImage, setIsDownloadingImage] = useState(false);
+
+  const getCertificateCanvas = async () => {
+    const certificateElement = document.getElementById('certificate');
+    if (!certificateElement) return null;
+
+    return await html2canvas(certificateElement, {
+      scale: 3,
+      useCORS: true,
+      allowTaint: true,
+      backgroundColor: '#faf8f2',
+    });
+  };
 
   const handleDownloadPDF = async () => {
-    const certificateElement = document.getElementById('certificate');
-    if (!certificateElement) return;
-
-    setIsDownloading(true);
+    setIsDownloadingPDF(true);
     
     try {
-      const canvas = await html2canvas(certificateElement, {
-        scale: 3, // Higher quality
-        useCORS: true,
-        allowTaint: true,
-        backgroundColor: '#faf8f2',
-      });
+      const canvas = await getCertificateCanvas();
+      if (!canvas) return;
 
       const imgData = canvas.toDataURL('image/png');
       
-      // A4 landscape dimensions in mm
       const pdf = new jsPDF({
         orientation: 'landscape',
         unit: 'mm',
@@ -52,7 +56,25 @@ const Index = () => {
     } catch (error) {
       console.error('Error generating PDF:', error);
     } finally {
-      setIsDownloading(false);
+      setIsDownloadingPDF(false);
+    }
+  };
+
+  const handleDownloadImage = async () => {
+    setIsDownloadingImage(true);
+    
+    try {
+      const canvas = await getCertificateCanvas();
+      if (!canvas) return;
+
+      const link = document.createElement('a');
+      link.download = `EduMentor-Certificate-${demoCertificateData.candidateName.replace(/\s+/g, '-')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('Error generating image:', error);
+    } finally {
+      setIsDownloadingImage(false);
     }
   };
 
@@ -67,28 +89,50 @@ const Index = () => {
       </Helmet>
       
       <div className="min-h-screen bg-background flex flex-col items-center justify-center p-8 gap-6">
-        {/* Download button */}
-        <Button
-          onClick={handleDownloadPDF}
-          disabled={isDownloading}
-          className="bg-primary hover:bg-primary/90 text-primary-foreground font-display tracking-wide"
-          size="lg"
-        >
-          {isDownloading ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Generating PDF...
-            </>
-          ) : (
-            <>
-              <Download className="mr-2 h-4 w-4" />
-              Download Certificate as PDF
-            </>
-          )}
-        </Button>
+        {/* Download buttons */}
+        <div className="flex gap-4">
+          <Button
+            onClick={handleDownloadPDF}
+            disabled={isDownloadingPDF || isDownloadingImage}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-display tracking-wide"
+            size="lg"
+          >
+            {isDownloadingPDF ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <Download className="mr-2 h-4 w-4" />
+                Download PDF
+              </>
+            )}
+          </Button>
+
+          <Button
+            onClick={handleDownloadImage}
+            disabled={isDownloadingPDF || isDownloadingImage}
+            variant="outline"
+            className="font-display tracking-wide border-primary/30 hover:bg-primary/5"
+            size="lg"
+          >
+            {isDownloadingImage ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <Image className="mr-2 h-4 w-4" />
+                Download Image
+              </>
+            )}
+          </Button>
+        </div>
 
         {/* Certificate */}
-        <div ref={certificateRef} className="animate-fade-in">
+        <div className="animate-fade-in">
           <Certificate data={demoCertificateData} />
         </div>
       </div>
