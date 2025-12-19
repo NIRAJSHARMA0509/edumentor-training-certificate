@@ -57,6 +57,20 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Certificate-specific colors
+        certificate: {
+          paper: "hsl(var(--certificate-paper))",
+          border: "hsl(var(--certificate-border))",
+          gold: "hsl(var(--certificate-gold))",
+          "gold-dark": "hsl(var(--certificate-gold-dark))",
+          ink: "hsl(var(--certificate-ink))",
+          muted: "hsl(var(--certificate-muted))",
+          cream: "hsl(var(--certificate-cream))",
+        },
+      },
+      fontFamily: {
+        display: ['Playfair Display', 'Georgia', 'Times New Roman', 'serif'],
+        body: ['Crimson Text', 'Georgia', 'Times New Roman', 'serif'],
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -65,25 +79,32 @@ export default {
       },
       keyframes: {
         "accordion-down": {
-          from: {
-            height: "0",
-          },
-          to: {
-            height: "var(--radix-accordion-content-height)",
-          },
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
         },
         "accordion-up": {
-          from: {
-            height: "var(--radix-accordion-content-height)",
-          },
-          to: {
-            height: "0",
-          },
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "seal-shine": {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
+        "fade-in": {
+          "0%": { opacity: "0", transform: "translateY(10px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "seal-shine": "seal-shine 3s ease-in-out infinite",
+        "fade-in": "fade-in 0.6s ease-out forwards",
+      },
+      boxShadow: {
+        "certificate": "0 25px 80px -20px rgba(10, 22, 40, 0.25), 0 10px 30px -10px rgba(10, 22, 40, 0.15)",
+        "seal": "0 8px 30px -5px rgba(10, 22, 40, 0.3), inset 0 2px 4px rgba(255, 255, 255, 0.3), inset 0 -2px 4px rgba(0, 0, 0, 0.2)",
+        "emboss": "inset 0 2px 3px rgba(255, 255, 255, 0.4), inset 0 -2px 3px rgba(0, 0, 0, 0.15)",
       },
     },
   },
