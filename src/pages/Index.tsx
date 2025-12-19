@@ -7,7 +7,6 @@ const demoCertificateData: CertificateData = {
   certificateId: "EM-MTP-24019A",
   issuedDate: "19 December 2025",
   awardedDate: "19 December 2025",
-  duration: "8 Weeks",
   signatoryName: "Emeritus Professor David Faulkner",
   signatoryRole: "Programme Director, EduMentor",
   programName: "EduMentor Mentorship Training Programme",
