@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import logo from '@/assets/edumentor-logo.png';
+import signature from '@/assets/david-signature.jpg';
 import CertificateSeal from './CertificateSeal';
 import CertificateBorder from './CertificateBorder';
 import CertificateFlourish from './CertificateFlourish';
@@ -82,10 +83,13 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
             This is to certify that
           </p>
           
-          {/* Candidate name */}
-          <h2 className="font-display text-xl md:text-3xl lg:text-4xl font-bold text-certificate-ink">
-            {data.candidateName}
-          </h2>
+          {/* Candidate name with seal beside it */}
+          <div className="flex items-center justify-center gap-4 md:gap-6">
+            <h2 className="font-display text-xl md:text-3xl lg:text-4xl font-bold text-certificate-ink">
+              {data.candidateName}
+            </h2>
+            <CertificateSeal className="shrink-0" />
+          </div>
           
           {/* Decorative line under name */}
           <div className="w-40 md:w-64 lg:w-80 h-[2px] bg-gradient-to-r from-transparent via-certificate-gold to-transparent my-2 md:my-3" />
@@ -99,9 +103,6 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
             , demonstrating the academic grounding, ethical responsibility, and practical competence expected of an EduMentor-certified mentor.
           </p>
         </main>
-
-        {/* Seal - positioned absolutely */}
-        <CertificateSeal className="absolute right-10 md:right-16 lg:right-20 bottom-16 md:bottom-20" />
 
         {/* Footer */}
         <footer className="flex items-end justify-between gap-4 shrink-0">
@@ -117,7 +118,16 @@ const Certificate: FC<CertificateProps> = ({ data }) => {
             </div>
           </div>
           
-          <div className="text-right min-w-[160px] md:min-w-[200px]">
+          <div className="text-right min-w-[160px] md:min-w-[220px]">
+            {/* Signature image with transparent background effect */}
+            <div className="h-10 md:h-12 flex items-end justify-end mb-1">
+              <img 
+                src={signature} 
+                alt="Signature" 
+                className="h-full w-auto object-contain"
+                style={{ mixBlendMode: 'multiply' }}
+              />
+            </div>
             <div className="w-full h-[1px] bg-certificate-ink/40 mb-1" />
             <div className="font-display text-[10px] md:text-xs font-bold text-certificate-ink">
               {data.signatoryName}
