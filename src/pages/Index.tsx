@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Download, Image, Loader2 } from 'lucide-react';
+import { Download, ImageIcon, Loader2 } from 'lucide-react';
 import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import Certificate, { CertificateData } from '@/components/Certificate';
@@ -124,7 +124,7 @@ const Index = () => {
               </>
             ) : (
               <>
-                <Image className="mr-2 h-4 w-4" />
+                <ImageIcon className="mr-2 h-4 w-4" />
                 Download Image
               </>
             )}
